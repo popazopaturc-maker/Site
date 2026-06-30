@@ -414,6 +414,35 @@
             background: #3b4550;
         }
 
+        .download-box .btn-download {
+            background: #1db954;
+            border: none;
+            color: #fff;
+            padding: 14px 40px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .download-box .btn-download:hover {
+            background: #17a34a;
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .download-box .btn-download:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #3b4550;
+            transform: none;
+            box-shadow: none;
+        }
+
         .auth-container {
             max-width: 460px;
             margin: 0 auto;
@@ -622,7 +651,7 @@
             margin: 10px 0 20px;
         }
 
-        /* Админ панель */
+        /* АДМИН-ПАНЕЛЬ */
         .admin-key-row {
             display: grid;
             grid-template-columns: 1fr 1fr 120px;
@@ -756,6 +785,55 @@
             flex-wrap: wrap;
         }
 
+        .admin-gen-box {
+            background: #1e262e;
+            border-radius: 16px;
+            border: 1px solid #2a333c;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .admin-gen-box h4 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .admin-gen-box .gen-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .admin-gen-box .gen-row .field {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .admin-gen-box .gen-row .field label {
+            color: #8895a3;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .admin-gen-box .gen-row .field input,
+        .admin-gen-box .gen-row .field select {
+            width: 100%;
+            padding: 10px 14px;
+            background: #14181c;
+            border: 1px solid #2a333c;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .admin-gen-box .gen-row .field input:focus,
+        .admin-gen-box .gen-row .field select:focus {
+            border-color: #1db954;
+        }
+
         @media (max-width: 600px) {
             .app {
                 padding: 16px;
@@ -786,6 +864,13 @@
             }
             .admin-table-header .status-header {
                 grid-column: span 2;
+            }
+            .admin-gen-box .gen-row {
+                flex-direction: column;
+            }
+            .admin-gen-box .gen-row .field {
+                width: 100%;
+                min-width: unset;
             }
         }
     </style>
@@ -916,8 +1001,16 @@
                 </div>
             </div>
             <div class="download-box">
-                <p>Скачать лаунчер <span style="color:#8895a3; font-size:14px; display:block; margin-top:4px;">Нужна активная подписка</span></p>
-                <button class="btn-primary" id="downloadBtn" disabled>Скачать лаунчер</button>
+                <p style="color:#9aa5b2; font-size:16px; margin-bottom:8px;">
+                    <i class="fas fa-download" style="color:#1db954;"></i> Скачать лаунчер MiaWare
+                </p>
+                <p style="color:#8895a3; font-size:14px; margin-bottom:16px;">
+                    Версия 1.0.0 | Требуется активная подписка
+                </p>
+                <button class="btn-download" id="downloadBtn" disabled onclick="downloadLoader()">
+                    <i class="fas fa-cloud-download-alt"></i> Скачать (требуется подписка)
+                </button>
+                <div id="downloadStatus" style="margin-top:12px; font-size:14px; color:#8895a3;"></div>
             </div>
         </div>
     </section>
@@ -1011,7 +1104,6 @@
             </h2>
             <div class="sub">Управление ключами активации</div>
             
-            <!-- Вход в админку -->
             <div id="adminLogin" style="margin: 20px 0;">
                 <form onsubmit="return adminLogin(event)" class="auth-form">
                     <label>Пароль администратора</label>
@@ -1024,7 +1116,6 @@
                 </div>
             </div>
 
-            <!-- Панель управления -->
             <div id="adminPanel" style="display:none;">
                 <div class="admin-stats">
                     <div class="stat">
@@ -1075,6 +1166,31 @@
                         <i class="fas fa-trash"></i> Сбросить использованные
                     </button>
                 </div>
+
+                <div class="admin-gen-box">
+                    <h4><i class="fas fa-plus-circle" style="color: #1db954;"></i> Генерация ключей</h4>
+                    <div class="gen-row">
+                        <div class="field">
+                            <label>Количество</label>
+                            <input type="number" id="genCount" value="10" min="1" max="100" />
+                        </div>
+                        <div class="field">
+                            <label>Длительность</label>
+                            <select id="genDuration">
+                                <option value="Навсегда">🔓 Навсегда</option>
+                                <option value="3 месяца">📅 3 месяца</option>
+                                <option value="1 месяц">📅 1 месяц</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" onclick="generateKeysInAdmin()" style="padding:12px 30px; margin-top:18px;">
+                            <i class="fas fa-key"></i> Сгенерировать
+                        </button>
+                        <button class="btn-outline" onclick="clearAllKeys()" style="padding:12px 30px; margin-top:18px; border-color:#e74c3c; color:#e74c3c;">
+                            <i class="fas fa-trash"></i> Очистить все
+                        </button>
+                    </div>
+                    <div id="genResult" style="margin-top:12px; font-weight:600; color:#1db954;"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -1083,167 +1199,56 @@
 
 <script>
     // ============================================================
-    // 1. БАЗА ДАННЫХ КЛЮЧЕЙ (ФИКСИРОВАННЫЕ)
+    // 1. БАЗА ДАННЫХ КЛЮЧЕЙ
     // ============================================================
-    const keyDatabase = [
-        // ---- НАВСЕГДА (50 ключей) ----
-        { code: 'MIAWARE-F7XK3P', duration: 'Навсегда' },
-        { code: 'MIAWARE-F9R4T2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2M8Q6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5H9L1', duration: 'Навсегда' },
-        { code: 'MIAWARE-F3W7E4', duration: 'Навсегда' },
-        { code: 'MIAWARE-F8A2N6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F4K9B7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F1C5R3', duration: 'Навсегда' },
-        { code: 'MIAWARE-F6P8M2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F0J7L4', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2V9Q1', duration: 'Навсегда' },
-        { code: 'MIAWARE-F7D3S6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5G8H2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F9N4K7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F3T6B9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F8M2C5', duration: 'Навсегда' },
-        { code: 'MIAWARE-F4P7R1', duration: 'Навсегда' },
-        { code: 'MIAWARE-F1J9L3', duration: 'Навсегда' },
-        { code: 'MIAWARE-F6K4T8', duration: 'Навсегда' },
-        { code: 'MIAWARE-F0C5M7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2R8P4', duration: 'Навсегда' },
-        { code: 'MIAWARE-F7B1N9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5S3K6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F9H7C2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F3L9T5', duration: 'Навсегда' },
-        { code: 'MIAWARE-F8D6M1', duration: 'Навсегда' },
-        { code: 'MIAWARE-F4P2B8', duration: 'Навсегда' },
-        { code: 'MIAWARE-F1N7S4', duration: 'Навсегда' },
-        { code: 'MIAWARE-F6K9R3', duration: 'Навсегда' },
-        { code: 'MIAWARE-F0T4C7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2M5B9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F7H1P6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5S8D3', duration: 'Навсегда' },
-        { code: 'MIAWARE-F9L2K7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F3R6N1', duration: 'Навсегда' },
-        { code: 'MIAWARE-F8P4T9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F4C7S2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F1B9M5', duration: 'Навсегда' },
-        { code: 'MIAWARE-F6D3R8', duration: 'Навсегда' },
-        { code: 'MIAWARE-F0H6L2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5K2P9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F8S4M7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2R9B3', duration: 'Навсегда' },
-        { code: 'MIAWARE-F7N5C8', duration: 'Навсегда' },
-        { code: 'MIAWARE-F4T1P6', duration: 'Навсегда' },
-        { code: 'MIAWARE-F9M3L7', duration: 'Навсегда' },
-        { code: 'MIAWARE-F5B8S2', duration: 'Навсегда' },
-        { code: 'MIAWARE-F0K4N9', duration: 'Навсегда' },
-        { code: 'MIAWARE-F2H7C5', duration: 'Навсегда' },
+    let keyDatabase = [];
 
-        // ---- 3 МЕСЯЦА (50 ключей) ----
-        { code: 'MIAWARE-Q4R9T2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q7N3M8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q2S5F1', duration: '3 месяца' },
-        { code: 'MIAWARE-Q9H7C4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q3L8K6', duration: '3 месяца' },
-        { code: 'MIAWARE-Q6P2R9', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8M4T7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q1B5S3', duration: '3 месяца' },
-        { code: 'MIAWARE-Q5F9H2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q0K7L4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q2N8R5', duration: '3 месяца' },
-        { code: 'MIAWARE-Q7D4M1', duration: '3 месяца' },
-        { code: 'MIAWARE-Q5C9T3', duration: '3 месяца' },
-        { code: 'MIAWARE-Q9P6K8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q3S2B7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8H5M4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q4F1N9', duration: '3 месяца' },
-        { code: 'MIAWARE-Q1R7T6', duration: '3 месяца' },
-        { code: 'MIAWARE-Q6L3P8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q0C9S2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q2K4B6', duration: '3 месяца' },
-        { code: 'MIAWARE-Q7R9P3', duration: '3 месяца' },
-        { code: 'MIAWARE-Q5M8S1', duration: '3 месяца' },
-        { code: 'MIAWARE-Q9T4N7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q3F6H2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8D1L5', duration: '3 месяца' },
-        { code: 'MIAWARE-Q4P7C3', duration: '3 месяца' },
-        { code: 'MIAWARE-Q1S9M6', duration: '3 месяца' },
-        { code: 'MIAWARE-Q6B2R8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q0N4K7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q2T8P1', duration: '3 месяца' },
-        { code: 'MIAWARE-Q7L5H3', duration: '3 месяца' },
-        { code: 'MIAWARE-Q5R9C6', duration: '3 месяца' },
-        { code: 'MIAWARE-Q9M2F8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q3S7N4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8P1K5', duration: '3 месяца' },
-        { code: 'MIAWARE-Q4B6T9', duration: '3 месяца' },
-        { code: 'MIAWARE-Q1H3R7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q6N8S2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q0C4M1', duration: '3 месяца' },
-        { code: 'MIAWARE-Q5T2P7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8S1K4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q3R6N9', duration: '3 месяца' },
-        { code: 'MIAWARE-Q7H4C2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q1L8P5', duration: '3 месяца' },
-        { code: 'MIAWARE-Q6M3B7', duration: '3 месяца' },
-        { code: 'MIAWARE-Q4T9S2', duration: '3 месяца' },
-        { code: 'MIAWARE-Q0F5K8', duration: '3 месяца' },
-        { code: 'MIAWARE-Q2N7C4', duration: '3 месяца' },
-        { code: 'MIAWARE-Q8P3M6', duration: '3 месяца' },
+    const storedKeys = localStorage.getItem('miaware_keydatabase');
+    if (storedKeys) {
+        const parsed = JSON.parse(storedKeys);
+        if (parsed.length > 0) {
+            keyDatabase = parsed;
+        }
+    }
 
-        // ---- 1 МЕСЯЦ (50 ключей) ----
-        { code: 'MIAWARE-M8H5L1', duration: '1 месяц' },
-        { code: 'MIAWARE-M2P9T4', duration: '1 месяц' },
-        { code: 'MIAWARE-M7C3R6', duration: '1 месяц' },
-        { code: 'MIAWARE-M4S8N2', duration: '1 месяц' },
-        { code: 'MIAWARE-M9F1K7', duration: '1 месяц' },
-        { code: 'MIAWARE-M3B6T9', duration: '1 месяц' },
-        { code: 'MIAWARE-M8L4P2', duration: '1 месяц' },
-        { code: 'MIAWARE-M1H7S5', duration: '1 месяц' },
-        { code: 'MIAWARE-M6C9R3', duration: '1 месяц' },
-        { code: 'MIAWARE-M4T2N8', duration: '1 месяц' },
-        { code: 'MIAWARE-M7F5B1', duration: '1 месяц' },
-        { code: 'MIAWARE-M2S8L6', duration: '1 месяц' },
-        { code: 'MIAWARE-M9P4H3', duration: '1 месяц' },
-        { code: 'MIAWARE-M5R1N7', duration: '1 месяц' },
-        { code: 'MIAWARE-M3C6T9', duration: '1 месяц' },
-        { code: 'MIAWARE-M8K2S4', duration: '1 месяц' },
-        { code: 'MIAWARE-M1B7F5', duration: '1 месяц' },
-        { code: 'MIAWARE-M6N4R2', duration: '1 месяц' },
-        { code: 'MIAWARE-M4T9C3', duration: '1 месяц' },
-        { code: 'MIAWARE-M7P1S8', duration: '1 месяц' },
-        { code: 'MIAWARE-M2F6B9', duration: '1 месяц' },
-        { code: 'MIAWARE-M9R4N7', duration: '1 месяц' },
-        { code: 'MIAWARE-M5H8S2', duration: '1 месяц' },
-        { code: 'MIAWARE-M1C3T6', duration: '1 месяц' },
-        { code: 'MIAWARE-M7K9P4', duration: '1 месяц' },
-        { code: 'MIAWARE-M4B2N8', duration: '1 месяц' },
-        { code: 'MIAWARE-M6R1H5', duration: '1 месяц' },
-        { code: 'MIAWARE-M9S4F7', duration: '1 месяц' },
-        { code: 'MIAWARE-M3T8C2', duration: '1 месяц' },
-        { code: 'MIAWARE-M8P5K1', duration: '1 месяц' },
-        { code: 'MIAWARE-M2N7B4', duration: '1 месяц' },
-        { code: 'MIAWARE-M7C1R9', duration: '1 месяц' },
-        { code: 'MIAWARE-M5S8H3', duration: '1 месяц' },
-        { code: 'MIAWARE-M9T2F6', duration: '1 месяц' },
-        { code: 'MIAWARE-M3K4P7', duration: '1 месяц' },
-        { code: 'MIAWARE-M8R6N1', duration: '1 месяц' },
-        { code: 'MIAWARE-M1B9S4', duration: '1 месяц' },
-        { code: 'MIAWARE-M6H3T8', duration: '1 месяц' },
-        { code: 'MIAWARE-M4F7C2', duration: '1 месяц' },
-        { code: 'MIAWARE-M9N5R1', duration: '1 месяц' },
-        { code: 'MIAWARE-M3S1P6', duration: '1 месяц' },
-        { code: 'MIAWARE-M8T9K4', duration: '1 месяц' },
-        { code: 'MIAWARE-M2C7N5', duration: '1 месяц' },
-        { code: 'MIAWARE-M7R3S8', duration: '1 месяц' },
-        { code: 'MIAWARE-M5F9B2', duration: '1 месяц' },
-        { code: 'MIAWARE-M1H6T4', duration: '1 месяц' },
-        { code: 'MIAWARE-M9K2P7', duration: '1 месяц' },
-        { code: 'MIAWARE-M4S8N3', duration: '1 месяц' },
-        { code: 'MIAWARE-M6B1R9', duration: '1 месяц' },
-        { code: 'MIAWARE-M2F7C5', duration: '1 месяц' }
-    ];
+    if (keyDatabase.length === 0) {
+        keyDatabase = [
+            { code: 'MIAWARE-F7XK3P', duration: 'Навсегда' },
+            { code: 'MIAWARE-F9R4T2', duration: 'Навсегда' },
+            { code: 'MIAWARE-F2M8Q6', duration: 'Навсегда' },
+            { code: 'MIAWARE-F5H9L1', duration: 'Навсегда' },
+            { code: 'MIAWARE-F3W7E4', duration: 'Навсегда' },
+            { code: 'MIAWARE-F8A2N6', duration: 'Навсегда' },
+            { code: 'MIAWARE-F4K9B7', duration: 'Навсегда' },
+            { code: 'MIAWARE-F1C5R3', duration: 'Навсегда' },
+            { code: 'MIAWARE-F6P8M2', duration: 'Навсегда' },
+            { code: 'MIAWARE-F0J7L4', duration: 'Навсегда' },
+            { code: 'MIAWARE-Q4R9T2', duration: '3 месяца' },
+            { code: 'MIAWARE-Q7N3M8', duration: '3 месяца' },
+            { code: 'MIAWARE-Q2S5F1', duration: '3 месяца' },
+            { code: 'MIAWARE-Q9H7C4', duration: '3 месяца' },
+            { code: 'MIAWARE-Q3L8K6', duration: '3 месяца' },
+            { code: 'MIAWARE-Q6P2R9', duration: '3 месяца' },
+            { code: 'MIAWARE-Q8M4T7', duration: '3 месяца' },
+            { code: 'MIAWARE-Q1B5S3', duration: '3 месяца' },
+            { code: 'MIAWARE-Q5F9H2', duration: '3 месяца' },
+            { code: 'MIAWARE-Q0K7L4', duration: '3 месяца' },
+            { code: 'MIAWARE-M8H5L1', duration: '1 месяц' },
+            { code: 'MIAWARE-M2P9T4', duration: '1 месяц' },
+            { code: 'MIAWARE-M7C3R6', duration: '1 месяц' },
+            { code: 'MIAWARE-M4S8N2', duration: '1 месяц' },
+            { code: 'MIAWARE-M9F1K7', duration: '1 месяц' },
+            { code: 'MIAWARE-M3B6T9', duration: '1 месяц' },
+            { code: 'MIAWARE-M8L4P2', duration: '1 месяц' },
+            { code: 'MIAWARE-M1H7S5', duration: '1 месяц' },
+            { code: 'MIAWARE-M6C9R3', duration: '1 месяц' },
+            { code: 'MIAWARE-M4T2N8', duration: '1 месяц' }
+        ];
+        localStorage.setItem('miaware_keydatabase', JSON.stringify(keyDatabase));
+    }
 
     // ============================================================
-    // 2. СОСТОЯНИЕ ПОЛЬЗОВАТЕЛЯ И КЛЮЧЕЙ
+    // 2. СОСТОЯНИЕ
     // ============================================================
     let currentUser = null;
     let usedKeys = JSON.parse(localStorage.getItem('miaware_used_keys') || '[]');
@@ -1284,7 +1289,7 @@
             document.getElementById('profileUsername').textContent = currentUser.username;
             document.getElementById('profileEmail').textContent = currentUser.email || 'user@email.com';
             document.getElementById('profileRegDate').textContent = currentUser.regDate || '25.06.2026';
-            document.getElementById('profileUid').textContent = currentUser.uid || '34';
+            document.getElementById('profileUid').textContent = currentUser.uid || '1';
             const sub = currentUser.subscription || 'Нету подписки';
             const subEl = document.getElementById('profileSubscription');
             subEl.textContent = sub;
@@ -1304,17 +1309,19 @@
         e.preventDefault();
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value.trim();
-        const stored = localStorage.getItem('miaware_user');
-        if (stored) {
-            const user = JSON.parse(stored);
-            if (user.username === username && user.password === password) {
-                currentUser = user;
-                updateUIAfterLogin();
-                document.getElementById('loginError').classList.remove('show');
-                showSection('profile');
-                return false;
-            }
+        
+        const users = JSON.parse(localStorage.getItem('miaware_users') || '[]');
+        const user = users.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+            currentUser = user;
+            localStorage.setItem('miaware_user', JSON.stringify(user));
+            updateUIAfterLogin();
+            document.getElementById('loginError').classList.remove('show');
+            showSection('profile');
+            return false;
         }
+        
         document.getElementById('loginErrorText').textContent = 'Неверный логин или пароль.';
         document.getElementById('loginError').classList.add('show');
         return false;
@@ -1343,24 +1350,28 @@
             document.getElementById('regError').classList.add('show');
             return false;
         }
-        const stored = localStorage.getItem('miaware_user');
-        if (stored) {
-            const existing = JSON.parse(stored);
-            if (existing.username === username) {
-                document.getElementById('regErrorText').textContent = 'Пользователь с таким логином уже существует.';
-                document.getElementById('regError').classList.add('show');
-                return false;
-            }
+
+        const users = JSON.parse(localStorage.getItem('miaware_users') || '[]');
+        if (users.find(u => u.username === username)) {
+            document.getElementById('regErrorText').textContent = 'Пользователь с таким логином уже существует.';
+            document.getElementById('regError').classList.add('show');
+            return false;
         }
+
+        const maxUid = users.length > 0 ? Math.max(...users.map(u => u.uid || 0)) : 0;
         const newUser = {
             username: username,
             email: email,
             password: password,
             subscription: 'Нету подписки',
             regDate: new Date().toLocaleDateString('ru-RU'),
-            uid: Math.floor(100 + Math.random() * 900)
+            uid: maxUid + 1
         };
+
+        users.push(newUser);
+        localStorage.setItem('miaware_users', JSON.stringify(users));
         localStorage.setItem('miaware_user', JSON.stringify(newUser));
+
         document.getElementById('regError').classList.remove('show');
         document.getElementById('regSuccess').classList.add('show');
         setTimeout(() => {
@@ -1388,7 +1399,7 @@
     }
 
     // ============================================================
-    // 5. ДОПОЛНЕНИЯ (КЛЮЧИ И ПАРОЛЬ)
+    // 5. ДОПОЛНЕНИЯ
     // ============================================================
     function activateKey() {
         if (!currentUser) {
@@ -1443,6 +1454,12 @@
             result.textContent = 'Пароли не совпадают!';
             return;
         }
+        const users = JSON.parse(localStorage.getItem('miaware_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+        if (userIndex !== -1) {
+            users[userIndex].password = pass;
+            localStorage.setItem('miaware_users', JSON.stringify(users));
+        }
         currentUser.password = pass;
         localStorage.setItem('miaware_user', JSON.stringify(currentUser));
         result.style.color = '#1db954';
@@ -1452,7 +1469,49 @@
     }
 
     // ============================================================
-    // 6. АДМИН-ПАНЕЛЬ
+    // 6. СКАЧИВАНИЕ ЛОАДЕРА
+    // ============================================================
+    function downloadLoader() {
+        if (!currentUser) {
+            alert('Сначала войдите в аккаунт!');
+            showSection('login');
+            return;
+        }
+        
+        const hasSub = currentUser.subscription && currentUser.subscription !== 'Нету подписки';
+        if (!hasSub) {
+            document.getElementById('downloadStatus').innerHTML = '<span style="color:#e74c3c;">❌ Требуется активная подписка!</span>';
+            return;
+        }
+
+        const status = document.getElementById('downloadStatus');
+        status.innerHTML = '<span style="color:#1db954;">⬇️ Начинаем загрузку...</span>';
+        
+        // Создаём ссылку на файл лоадера
+        // В реальном проекте здесь будет ссылка на твой loader.exe на GitHub или другом хостинге
+        // Сейчас создаём демо-файл с заглушкой
+        
+        setTimeout(() => {
+            // Вариант 1: Скачивание с GitHub Releases
+            // window.location.href = 'https://github.com/твой-аккаунт/MiaWare/releases/download/v1.0/MiaWare_Loader.exe';
+            
+            // Вариант 2: Создаём тестовый файл для демонстрации
+            const blob = new Blob(['MiaWare Loader Demo\nВерсия 1.0.0'], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'MiaWare_Loader.exe';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            status.innerHTML = '<span style="color:#1db954;">✅ Загрузка началась! Файл сохранён в папке "Загрузки".</span>';
+        }, 1000);
+    }
+
+    // ============================================================
+    // 7. АДМИН-ПАНЕЛЬ
     // ============================================================
     function adminLogin(e) {
         e.preventDefault();
@@ -1543,7 +1602,7 @@
         navigator.clipboard.writeText(text).then(() => {
             alert('✅ Все ключи скопированы в буфер обмена!');
         }).catch(() => {
-            alert('❌ Не удалось скопировать. Попробуй выделить и скопировать вручную.');
+            alert('❌ Не удалось скопировать.');
         });
     }
 
@@ -1563,13 +1622,71 @@
         }
     }
 
+    function generateKeysInAdmin() {
+        const count = parseInt(document.getElementById('genCount').value) || 10;
+        const duration = document.getElementById('genDuration').value;
+        const result = document.getElementById('genResult');
+
+        if (count < 1 || count > 100) {
+            result.style.color = '#e74c3c';
+            result.textContent = '❌ Введите число от 1 до 100';
+            return;
+        }
+
+        const existingCodes = keyDatabase.map(k => k.code);
+        let generated = 0;
+
+        for (let i = 0; i < count; i++) {
+            let newKey;
+            let attempts = 0;
+            do {
+                const prefix = duration === 'Навсегда' ? 'F' : duration === '3 месяца' ? 'Q' : 'M';
+                const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+                newKey = `MIAWARE-${prefix}${random}`;
+                attempts++;
+            } while (existingCodes.includes(newKey) && attempts < 50);
+
+            if (!existingCodes.includes(newKey)) {
+                keyDatabase.push({ code: newKey, duration: duration });
+                existingCodes.push(newKey);
+                generated++;
+            }
+        }
+
+        localStorage.setItem('miaware_keydatabase', JSON.stringify(keyDatabase));
+        result.style.color = '#1db954';
+        result.textContent = `✅ Сгенерировано ${generated} ключей (${duration})`;
+        renderKeys();
+    }
+
+    function clearAllKeys() {
+        if (confirm('Удалить ВСЕ ключи из базы? Это действие необратимо!')) {
+            keyDatabase.length = 0;
+            localStorage.setItem('miaware_keydatabase', JSON.stringify(keyDatabase));
+            localStorage.removeItem('miaware_used_keys');
+            renderKeys();
+            document.getElementById('genResult').style.color = '#1db954';
+            document.getElementById('genResult').textContent = '✅ Все ключи удалены';
+        }
+    }
+
     // ============================================================
-    // 7. ЗАГРУЗКА ПРИ СТАРТЕ
+    // 8. ЗАГРУЗКА ПРИ СТАРТЕ
     // ============================================================
     const storedUser = localStorage.getItem('miaware_user');
     if (storedUser) {
-        currentUser = JSON.parse(storedUser);
-        updateUIAfterLogin();
+        const user = JSON.parse(storedUser);
+        // Проверяем, есть ли пользователь в общей базе
+        const users = JSON.parse(localStorage.getItem('miaware_users') || '[]');
+        const exists = users.find(u => u.username === user.username);
+        if (exists) {
+            currentUser = exists;
+            localStorage.setItem('miaware_user', JSON.stringify(exists));
+            updateUIAfterLogin();
+        } else {
+            // Если пользователь удалён из базы, но остался в сессии
+            localStorage.removeItem('miaware_user');
+        }
     }
 </script>
 
