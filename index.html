@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MiaWare — чит для Minecraft</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #0a0c10;
+            color: #c8d0d8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app {
+            max-width: 1200px;
+            width: 100%;
+            background: #14181c;
+            border-radius: 28px;
+            padding: 24px 30px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            border: 1px solid #2a3138;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid #262e36;
+            padding-bottom: 18px;
+            margin-bottom: 28px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(145deg, #1db954, #0d8c3a);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 28px;
+            color: #fff;
+            font-family: 'Arial Black', sans-serif;
+            box-shadow: 0 4px 16px rgba(29, 185, 84, 0.3);
+            transition: 0.3s;
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(29, 185, 84, 0.5);
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 800;
+            color: #eef2f5;
+        }
+
+        .logo-text span {
+            color: #1db954;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #a0abb8;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s;
+            padding: 6px 2px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            border-bottom-color: #1db954;
+        }
+
+        .nav-links a.active {
+            color: #fff;
+            border-bottom-color: #1db954;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #3b4550;
+            color: #c8d0d8;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            border-color: #1db954;
+            color: #fff;
+            background: rgba(29, 185, 84, 0.08);
+        }
+
+        .btn-primary {
+            background: #1db954;
+            border: none;
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #17a34a;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(29, 185, 84, 0.3);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: #1db954;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #9aa5b2;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: #1e262e;
+            border-radius: 16px;
+            padding: 24px 20px 22px;
+            border: 1px solid #2a333c;
+            transition: 0.25s;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            border-color: #1db954;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .product-card .mini-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #1db954, #0d8c3a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 26px;
+            color: #fff;
+            margin: 0 auto 12px;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .product-card h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .product-card .desc {
+            color: #9aa5b2;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            min-height: 48px;
+        }
+
+        .product-card .price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1db954;
+            margin-bottom: 16px;
+        }
+
+        .product-card .btn-buy {
+            background: #1db954;
+            border: none;
+            color: #fff;
+            padding: 10px 0;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .product-card .btn-buy:hover {
+            background: #17a34a;
+            box-shadow: 0 4px 16px rgba(29, 185, 84, 0.3);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-card {
+            background: #1e262e;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #2a333c;
+        }
+
+        .profile-card h3 {
+            color: #8895a3;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .profile-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profile-user .avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, #1db954, #0d8c3a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: #fff;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .profile-user .info h2 {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .profile-user .info p {
+            color: #9aa5b2;
+            font-size: 14px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #262e36;
+            font-size: 15px;
+        }
+
+        .profile-row .label {
+            color: #8895a3;
+        }
+
+        .profile-row .value {
+            color: #eef2f5;
+            font-weight: 500;
+        }
+
+        .profile-row .value.inactive {
+            color: #e74c3c;
+        }
+
+        .profile-row .value.active {
+            color: #1db954;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .profile-actions .action-btn {
+            background: #262e36;
+            border: none;
+            color: #c8d0d8;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-actions .action-btn:hover {
+            background: #313c47;
+            color: #fff;
+        }
+
+        .download-box {
+            background: #1e262e;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #2a333c;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-box p {
+            color: #9aa5b2;
+            margin-bottom: 14px;
+        }
+
+        .download-box .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #3b4550;
+        }
+
+        .auth-container {
+            max-width: 460px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .auth-container h2 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .auth-container .sub {
+            color: #9aa5b2;
+            margin-bottom: 24px;
+        }
+
+        .auth-form label {
+            display: block;
+            color: #8895a3;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1e262e;
+            border: 1px solid #2a333c;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        .auth-form input:focus {
+            border-color: #1db954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.15);
+        }
+
+        .auth-form .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 18px 0 12px;
+        }
+
+        .auth-form .checkbox-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1db954;
+        }
+
+        .auth-form .checkbox-row label {
+            margin: 0;
+            text-transform: none;
+            font-weight: 400;
+            color: #c8d0d8;
+            font-size: 14px;
+        }
+
+        .auth-form .btn-primary {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            margin-top: 12px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #8895a3;
+        }
+
+        .auth-footer a {
+            color: #1db954;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-toast {
+            background: #e74c3c;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .error-toast.show {
+            display: flex;
+        }
+
+        .success-toast {
+            background: #1db954;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .success-toast.show {
+            display: flex;
+        }
+
+        .extras-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .extras-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .extras-card {
+            background: #1e262e;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #2a333c;
+        }
+
+        .extras-card h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .extras-card .sub {
+            color: #8895a3;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .extras-card input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #14181c;
+            border: 1px solid #2a333c;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .extras-card input:focus {
+            border-color: #1db954;
+        }
+
+        .extras-card .key-hint {
+            color: #8895a3;
+            font-size: 13px;
+            margin-bottom: 14px;
+            font-family: monospace;
+            background: #14181c;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px dashed #2a333c;
+        }
+
+        .extras-card .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+        }
+
+        .profile-logged-out {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .profile-logged-out i {
+            font-size: 60px;
+            color: #1db954;
+            margin-bottom: 16px;
+        }
+
+        .profile-logged-out h3 {
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .profile-logged-out p {
+            color: #9aa5b2;
+            margin: 10px 0 20px;
+        }
+
+        .btn-green {
+            background: #1db954;
+            border: none;
+            color: #fff;
+            padding: 12px 40px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-green:hover {
+            background: #17a34a;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .app {
+                padding: 16px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .logo-text {
+                font-size: 20px;
+            }
+            .nav-links {
+                gap: 12px;
+            }
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="navbar">
+        <div class="logo-area" onclick="showSection('home')">
+            <div class="logo-icon">M</div>
+            <div class="logo-text">Mia<span>Ware</span></div>
+        </div>
+        <div class="nav-links">
+            <a class="active" data-section="home" onclick="showSection('home')">Главная</a>
+            <a data-section="products" onclick="showSection('products')">Продукты</a>
+            <a data-section="profile" onclick="showSection('profile')">Профиль</a>
+            <a data-section="extras" onclick="showSection('extras')">Дополнения</a>
+        </div>
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn-outline" onclick="showSection('login')">Вход</button>
+            <button class="btn-primary" onclick="showSection('register')">Регистрация</button>
+        </div>
+        <div class="auth-buttons" id="userBadge" style="display:none;">
+            <span style="color:#1db954; font-weight:600;" id="userNameDisplay">Foxxx1ks</span>
+            <button class="btn-outline" onclick="logout()">Выйти</button>
+        </div>
+    </nav>
+
+    <!-- ГЛАВНАЯ -->
+    <section id="section-home" class="section active">
+        <div class="hero">
+            <h1>Открой новые <span>возможности</span></h1>
+            <p>MiaWare — твой главный инструмент для достижения вершин. Мы объединили эстетику минимализма с максимальной производительностью, чтобы ничто не отвлекало тебя от победы.</p>
+            <button class="btn-primary" onclick="showSection('products')" style="padding:14px 40px; font-size:18px;">Начать побеждать</button>
+        </div>
+    </section>
+
+    <!-- ПРОДУКТЫ -->
+    <section id="section-products" class="section">
+        <h2 style="color:#fff; font-size:28px; margin-bottom:6px;">Продукты</h2>
+        <p style="color:#9aa5b2; margin-bottom:18px;">Выбери подписку под себя — от месячного теста до доступа навсегда.</p>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="mini-logo">M</div>
+                <h3>30 дней</h3>
+                <div class="desc">Идеальный старт — проверь обходы в реальном бою. Полный доступ ко всем функциям.</div>
+                <div class="price">300 ₽</div>
+                <button class="btn-buy" onclick="buyProduct('30 дней', 300)">Купить</button>
+            </div>
+            <div class="product-card">
+                <div class="mini-logo">M</div>
+                <h3>90 дней</h3>
+                <div class="desc">Больше времени — больше побед, выгоднее по цене. Приоритетные обновления.</div>
+                <div class="price">450 ₽</div>
+                <button class="btn-buy" onclick="buyProduct('90 дней', 450)">Купить</button>
+            </div>
+            <div class="product-card">
+                <div class="mini-logo">M</div>
+                <h3>Навсегда</h3>
+                <div class="desc">Полный доступ ко всем функциям и будущим обновлениям.</div>
+                <div class="price">600 ₽</div>
+                <button class="btn-buy" onclick="buyProduct('Навсегда', 600)">Купить</button>
+            </div>
+            <div class="product-card">
+                <div class="mini-logo">M</div>
+                <h3>Сброс HWID</h3>
+                <div class="desc">Отвязка оборудования при смене или переустановке ПК. Мгновенно после оплаты.</div>
+                <div class="price">250 ₽</div>
+                <button class="btn-buy" onclick="buyProduct('Сброс HWID', 250)">Купить</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПРОФИЛЬ -->
+    <section id="section-profile" class="section">
+        <h2 style="color:#fff; font-size:28px; margin-bottom:6px;">Профиль</h2>
+        <p style="color:#9aa5b2; margin-bottom:18px;">Личный кабинет</p>
+
+        <div id="profileLoggedOut" class="profile-logged-out">
+            <i class="fas fa-user-circle"></i>
+            <h3>Вы не авторизованы</h3>
+            <p>Войдите или зарегистрируйтесь, чтобы увидеть свой профиль</p>
+            <button class="btn-green" onclick="showSection('login')">Войти</button>
+            <button class="btn-outline" onclick="showSection('register')" style="margin-left:10px; padding:12px 40px;">Регистрация</button>
+        </div>
+
+        <div id="profileLoggedIn" style="display:none;">
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <h3>Аккаунт</h3>
+                    <div class="profile-user">
+                        <div class="avatar" id="profileAvatar">M</div>
+                        <div class="info">
+                            <h2 id="profileUsername">Foxxx1ks</h2>
+                            <p id="profileEmail">foxxxks30@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="profile-row">
+                        <span class="label">Подписка</span>
+                        <span class="value inactive" id="profileSubscription">Нету подписки</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="label">Регистрация</span>
+                        <span class="value" id="profileRegDate">25.06.2026</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="label">Доступ</span>
+                        <span class="value inactive" id="profileAccess">Неактивен</span>
+                    </div>
+                    <div class="profile-row">
+                        <span class="label">UID</span>
+                        <span class="value" id="profileUid">34</span>
+                    </div>
+                </div>
+                <div class="profile-card">
+                    <h3>Действия</h3>
+                    <div class="profile-actions">
+                        <button class="action-btn" onclick="showSection('products')">
+                            Продукты <span class="arrow">Подписки и товары →</span>
+                        </button>
+                        <button class="action-btn" onclick="showSection('extras')">
+                            Дополнения <span class="arrow">Ключ и смена пароля →</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="download-box">
+                <p>Скачать лаунчер <span style="color:#8895a3; font-size:14px; display:block; margin-top:4px;">Нужна активная подписка</span></p>
+                <button class="btn-primary" id="downloadBtn" disabled>Скачать лаунчер</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ДОПОЛНЕНИЯ -->
+    <section id="section-extras" class="section">
+        <h2 style="color:#fff; font-size:28px; margin-bottom:6px;">Дополнения</h2>
+        <p style="color:#9aa5b2; margin-bottom:18px;">Активировка ключа и настройки безопасности аккаунта.</p>
+        <div class="extras-grid">
+            <div class="extras-card">
+                <h3>Активировать ключ</h3>
+                <div class="sub">Введите ключ, чтобы продлить доступ.</div>
+                <input type="text" id="keyInput" placeholder="MIAWARE-XXX-XXX" />
+                <div class="key-hint">Формат: MIAWARE-XXX-XXX</div>
+                <button class="btn-primary" onclick="activateKey()">Активировать</button>
+                <div id="keyResult" style="margin-top:12px; font-weight:600;"></div>
+            </div>
+            <div class="extras-card">
+                <h3>Сменить пароль</h3>
+                <div class="sub">Новый пароль для входа в аккаунт.</div>
+                <input type="password" id="newPass" placeholder="Новый пароль" />
+                <input type="password" id="newPassRepeat" placeholder="Повтор пароля" style="margin-top:8px;" />
+                <button class="btn-primary" onclick="changePassword()" style="margin-top:12px;">Сменить пароль</button>
+                <div id="passResult" style="margin-top:12px; font-weight:600;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ВХОД -->
+    <section id="section-login" class="section">
+        <div class="auth-container">
+            <h2>Добро пожаловать</h2>
+            <div class="sub">Войдите в аккаунт, чтобы управлять подписками и продолжить с того места, где остановились.</div>
+            <form class="auth-form" onsubmit="return loginUser(event)">
+                <label>Логин</label>
+                <input type="text" id="loginUsername" placeholder="Введите логин" required />
+                <label>Пароль</label>
+                <input type="password" id="loginPassword" placeholder="Введите пароль" required />
+                <button type="submit" class="btn-primary">Войти</button>
+            </form>
+            <div id="loginError" class="error-toast">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="loginErrorText">Ошибка входа</span>
+            </div>
+            <div class="auth-footer">
+                Нет аккаунта? <a onclick="showSection('register')">Зарегистрироваться</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- РЕГИСТРАЦИЯ -->
+    <section id="section-register" class="section">
+        <div class="auth-container">
+            <h2>Создайте аккаунт</h2>
+            <div class="sub">Присоединяйся к MiaWare — настрой аккаунт для доступа к клиенту, обновлениям и поддержке.</div>
+            <form class="auth-form" onsubmit="return registerUser(event)">
+                <label>Логин</label>
+                <input type="text" id="regUsername" placeholder="Придумайте логин" required />
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="Ваш email" required />
+                <label>Пароль</label>
+                <input type="password" id="regPassword" placeholder="Придумайте пароль" required />
+                <label>Повтор пароля</label>
+                <input type="password" id="regPasswordRepeat" placeholder="Повторите пароль" required />
+                <div class="checkbox-row">
+                    <input type="checkbox" id="regClient" checked />
+                    <label for="regClient">Подтвердите, что вы являетесь клиентом</label>
+                </div>
+                <button type="submit" class="btn-primary">Зарегистрироваться</button>
+            </form>
+            <div id="regError" class="error-toast">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="regErrorText">Ошибка регистрации</span>
+            </div>
+            <div id="regSuccess" class="success-toast">
+                <i class="fas fa-check-circle"></i>
+                <span>Регистрация успешна! Теперь войдите.</span>
+            </div>
+            <div class="auth-footer">
+                Уже есть аккаунт? <a onclick="showSection('login')">Войти</a>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // ГЕНЕРАЦИЯ КЛЮЧЕЙ
+    function generateKeys() {
+        const keys = [];
+        const types = [
+            { label: 'Навсегда', count: 500, prefix: 'F' },
+            { label: '3 месяца', count: 500, prefix: 'Q' },
+            { label: '1 месяц', count: 500, prefix: 'M' }
+        ];
+        types.forEach(type => {
+            for (let i = 0; i < type.count; i++) {
+                const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+                keys.push({ code: `MIAWARE-${type.prefix}${rand}`, duration: type.label });
+            }
+        });
+        return keys;
+    }
+    const keyDatabase = generateKeys();
+
+    let currentUser = null;
+
+    function showSection(section) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById('section-' + section);
+        if (target) target.classList.add('active');
+        document.querySelectorAll('.nav-links a[data-section]').forEach(a => {
+            a.classList.toggle('active', a.dataset.section === section);
+        });
+        if (section === 'profile') updateProfileUI();
+        document.querySelectorAll('.error-toast, .success-toast').forEach(el => el.classList.remove('show'));
+    }
+
+    function updateUIAfterLogin() {
+        document.getElementById('authButtons').style.display = 'none';
+        document.getElementById('userBadge').style.display = 'flex';
+        document.getElementById('userNameDisplay').textContent = currentUser.username;
+        updateProfileUI();
+        document.querySelectorAll('.error-toast, .success-toast').forEach(el => el.classList.remove('show'));
+    }
+
+    function updateProfileUI() {
+        if (currentUser) {
+            document.getElementById('profileLoggedOut').style.display = 'none';
+            document.getElementById('profileLoggedIn').style.display = 'block';
+            document.getElementById('profileUsername').textContent = currentUser.username;
+            document.getElementById('profileEmail').textContent = currentUser.email || 'user@email.com';
+            document.getElementById('profileRegDate').textContent = currentUser.regDate || '25.06.2026';
+            document.getElementById('profileUid').textContent = currentUser.uid || '34';
+            const sub = currentUser.subscription || 'Нету подписки';
+            const subEl = document.getElementById('profileSubscription');
+            subEl.textContent = sub;
+            subEl.className = 'value ' + (sub === 'Нету подписки' ? 'inactive' : 'active');
+            const accessEl = document.getElementById('profileAccess');
+            const hasSub = sub !== 'Нету подписки';
+            accessEl.textContent = hasSub ? 'Активен' : 'Неактивен';
+            accessEl.className = 'value ' + (hasSub ? 'active' : 'inactive');
+            document.getElementById('downloadBtn').disabled = !hasSub;
+        } else {
+            document.getElementById('profileLoggedOut').style.display = 'block';
+            document.getElementById('profileLoggedIn').style.display = 'none';
+        }
+    }
+
+    function loginUser(e) {
+        e.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const stored = localStorage.getItem('miaware_user');
+        if (stored) {
+            const user = JSON.parse(stored);
+            if (user.username === username && user.password === password) {
+                currentUser = user;
+                updateUIAfterLogin();
+                document.getElementById('loginError').classList.remove('show');
+                showSection('profile');
+                return false;
+            }
+        }
+        document.getElementById('loginErrorText').textContent = 'Неверный логин или пароль.';
+        document.getElementById('loginError').classList.add('show');
+        return false;
+    }
+
+    function registerUser(e) {
+        e.preventDefault();
+        const username = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        const passwordRepeat = document.getElementById('regPasswordRepeat').value.trim();
+        const isClient = document.getElementById('regClient').checked;
+
+        if (!username || !email || !password || !passwordRepeat) {
+            document.getElementById('regErrorText').textContent = 'Заполните все поля.';
+            document.getElementById('regError').classList.add('show');
+            return false;
+        }
+        if (password !== passwordRepeat) {
+            document.getElementById('regErrorText').textContent = 'Пароли не совпадают.';
+            document.getElementById('regError').classList.add('show');
+            return false;
+        }
+        if (!isClient) {
+            document.getElementById('regErrorText').textContent = 'Подтвердите, что вы клиент.';
+            document.getElementById('regError').classList.add('show');
+            return false;
+        }
+        const stored = localStorage.getItem('miaware_user');
+        if (stored) {
+            const existing = JSON.parse(stored);
+            if (existing.username === username) {
+                document.getElementById('regErrorText').textContent = 'Пользователь с таким логином уже существует.';
+                document.getElementById('regError').classList.add('show');
+                return false;
+            }
+        }
+        const newUser = {
+            username: username,
+            email: email,
+            password: password,
+            subscription: 'Нету подписки',
+            regDate: new Date().toLocaleDateString('ru-RU'),
+            uid: Math.floor(100 + Math.random() * 900)
+        };
+        localStorage.setItem('miaware_user', JSON.stringify(newUser));
+        document.getElementById('regError').classList.remove('show');
+        document.getElementById('regSuccess').classList.add('show');
+        setTimeout(() => {
+            document.getElementById('regSuccess').classList.remove('show');
+            showSection('login');
+        }, 2000);
+        return false;
+    }
+
+    function logout() {
+        currentUser = null;
+        document.getElementById('authButtons').style.display = 'flex';
+        document.getElementById('userBadge').style.display = 'none';
+        updateProfileUI();
+        showSection('home');
+    }
+
+    function buyProduct(name, price) {
+        if (!currentUser) {
+            alert('Сначала войдите в аккаунт!');
+            showSection('login');
+            return;
+        }
+        alert(`Товар "${name}" добавлен в корзину!\nСумма: ${price} ₽\n(Это демо-версия магазина)`);
+    }
+
+    function activateKey() {
+        if (!currentUser) {
+            alert('Сначала войдите в аккаунт!');
+            showSection('login');
+            return;
+        }
+        const input = document.getElementById('keyInput').value.trim().toUpperCase();
+        const result = document.getElementById('keyResult');
+        if (!input) {
+            result.style.color = '#e74c3c';
+            result.textContent = 'Введите ключ!';
+            return;
+        }
+        const found = keyDatabase.find(k => k.code === input);
+        if (found) {
+            currentUser.subscription = found.duration;
+            localStorage.setItem('miaware_user', JSON.stringify(currentUser));
+            result.style.color = '#1db954';
+            result.textContent = `✅ Ключ активирован! Подписка: ${found.duration}`;
+            updateProfileUI();
+        } else {
+            result.style.color = '#e74c3c';
+            result.textContent = '❌ Неверный ключ!';
+        }
+    }
+
+    function changePassword() {
+        if (!currentUser) {
+            alert('Сначала войдите в аккаунт!');
+            showSection('login');
+            return;
+        }
+        const pass = document.getElementById('newPass').value.trim();
+        const passRepeat = document.getElementById('newPassRepeat').value.trim();
+        const result = document.getElementById('passResult');
+        if (!pass || !passRepeat) {
+            result.style.color = '#e74c3c';
+            result.textContent = 'Заполните оба поля!';
+            return;
+        }
+        if (pass !== passRepeat) {
+            result.style.color = '#e74c3c';
+            result.textContent = 'Пароли не совпадают!';
+            return;
+        }
+        currentUser.password = pass;
+        localStorage.setItem('miaware_user', JSON.stringify(currentUser));
+        result.style.color = '#1db954';
+        result.textContent = '✅ Пароль успешно изменён!';
+        document.getElementById('newPass').value = '';
+        document.getElementById('newPassRepeat').value = '';
+    }
+
+    // Проверка при загрузке
+    const storedUser = localStorage.getItem('miaware_user');
+    if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        updateUIAfterLogin();
+    }
+
+    // Настройка кнопок "Вход" и "Регистрация" в профиле
+    document.querySelectorAll('.profile-logged-out .btn-green, .profile-logged-out .btn-outline').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            if (this.textContent.includes('Войти')) showSection('login');
+            else if (this.textContent.includes('Регистрация')) showSection('register');
+        });
+    });
+</script>
+
+</body>
+</html>
